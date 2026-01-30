@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWAN | 能量覺醒 - 品牌活動網站</title>
+    <style>
+        :root {
+            --primary: #F5C400; /* 電光黃 */
+            --bg: #0B0B0F;      /* 深邃黑 */
+            --surface: #1A1A1F; /* 區塊深灰 */
+            --white: #FFFFFF;
+            --font-main: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --shadow: 4px 4px 0px #000;
+            --glitch-shadow: -3px -3px 0px #F5C400, 3px 3px 0px #000;
+            --accent-red: #FF0000; /* 亮紅色，用於強調 */
+        }
+
+        /* 基礎樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 背景裝飾：斜紋 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(45deg, rgba(245, 196, 0, 0.03) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(245, 196, 0, 0.03) 25%, transparent 25%);
+            background-size: 60px 60px;
+            z-index: -1;
+        }
+
+        /* 開發者提示區 */
+        .dev-note {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+
+        /* 容器與區塊控制 */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 品牌 Logo 容器 */
+        .logo-wrapper {
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto;
+            padding: 20px 0;
+            /* 保留強烈的黃色發光濾鏡 */
+            filter: drop-shadow(0 0 20px rgba(245, 196, 0, 0.6));
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .hero-tagline {
+            background: var(--primary);
+            color: var(--bg);
+            display: inline-block;
+            padding: 4px 16px;
+            font-weight: 800;
+            transform: skew(-15deg);
+            margin-top: -15px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            position: relative;
+        }
+
+        /* 卡片設計 */
+        .card {
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 95% 100%, 0 100%);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        .bullet-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .bullet-item::before {
+            content: "⚡";
+            color: var(--primary);
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        /* 按鈕設計 */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 15px;
+            background: var(--primary);
+            color: var(--bg);
+            text-decoration: none;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 3px solid #000;
+            box-shadow: var(--shadow);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: visible;
+        }
+
+        .btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px #000;
+            filter: brightness(1.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-snap {
+            background: #FFFC00; /* Snapchat 經典色 */
+            color: #000;
+            margin-top: 20px;
+            border: 3px solid #000;
+        }
+
+        /* 情境按鈕網格 */
+        .scene-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .scene-btn {
+            padding: 15px;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* 問卷按鈕特殊樣式 */
+        .survey-btn {
+            margin-top: 60px;
+            background: var(--white);
+            color: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .survey-btn::before {
+            content: "FINAL STEP";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) skew(-10deg);
+            background: var(--accent-red);
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 15px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            box-shadow: 3px 3px 0px #000;
+            animation: pulse-glow 1.5s infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: translateX(-50%) skew(-10deg) scale(1); filter: brightness(1); }
+            50% { transform: translateX(-50%) skew(-10deg) scale(1.05); filter: brightness(1.2); box-shadow: 0px 0px 15px var(--accent-red); }
+            100% { transform: translateX(-50%) skew(-10deg) scale(1); filter: brightness(1); }
+        }
+
+        .scene-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 20px 0;
+            color: #DDD;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--primary);
+            margin: 20px 0;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--primary),
+                var(--primary) 15px,
+                transparent 15px,
+                transparent 30px
+            );
+            margin: 30px 0;
+        }
+
+        h3 {
+            margin: 30px 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 主頁 -->
+    <section id="home" class="container active">
+        <header class="hero-section">
+            <div class="logo-wrapper">
+                <!-- 替換為用戶提供的 Google Drive Logo 圖片 -->
+                <img
+                id="ewanLogo"
+                src="https://drive.google.com/thumbnail?id=1mW6lxw4I-rjJF-EYUhqYWsnsT1Iotd-N&sz=w1000"
+                alt="EWAN Logo"
+                class="brand-logo-img"
+                />
+            </div>
+            <p class="hero-tagline">ENERGY AWAKENING</p>
+            <div class="divider"></div>
+        </header>
+
+        <article class="card">
+            <h2>品牌任務</h2>
+            <p>EWAN 是一個專為年輕族群打造的機能飲料品牌，主打在高負荷的日常生活情境中，提供即時的能量補充。當專注被拉長、節奏加快、狀態逐漸消耗時，EWAN 以瞬間覺醒的能量意象，陪你撐過每一個關鍵時刻。</p>
+            
+            <p style="margin-top: 15px;">接下來，你將透過一系列擴增實境互動體驗，在不同生活情境中逐步認識 EWAN。</p>
+            
+            <p style="margin-top: 15px;">每一次互動的操作方式皆相同，但所呈現的情境脈絡與視覺元素將有所差異。請依照畫面指示，依序完成情境一至情境十的體驗，並於全部互動結束後，填寫主頁最下方之問卷。</p>
+            
+            <div style="margin-top: 25px;">
+                <div class="bullet-item">即時能量補充意象</div>
+                <div class="bullet-item">情境化 AR 濾鏡互動</div>
+                <div class="bullet-item">多重生活狀態體驗</div>
+            </div>
+        </article>
+
+        <h3>請依序完成情境一至情境十</h3>
+        <div class="scene-grid" id="sceneGrid"></div>
+
+        <a href="#" id="surveyBtnLink" class="btn survey-btn">填寫活動問卷</a>
+    </section>
+
+    <!-- 情境詳情頁 -->
+    <section id="scene-detail" class="container">
+        <a href="javascript:void(0)" onclick="showPage('home')" class="back-link">← BACK TO HOME</a>
+        
+        <div class="card">
+            <h2 id="sceneTitle">載入中...</h2>
+            <div class="scene-content" id="sceneBody">
+                準備進入能量覺醒狀態...
+            </div>
+        </div>
+
+        <a href="#" id="snapLink" target="_blank" class="btn btn-snap">⚡ 開啟 SNAPCHAT 濾鏡</a>
+        <a href="javascript:void(0)" id="nextSceneBtn" class="btn btn-outline">NEXT CHALLENGE →</a>
+    </section>
+
+    <script>
+        const config = {
+            surveyUrl: "https://forms.gle/example",
+            scenes: [
+                { id: 1, text: "在深夜趕稿的時刻，EWAN 為你找回消失的靈感。感受大腦皮層的瞬間覺醒。", snap: "https://www.snapchat.com/" },
+                { id: 2, text: "極限運動前的最後準備。讓身體每一顆細胞都充滿電光能量。", snap: "https://www.snapchat.com/" },
+                { id: 3, text: "在繁忙的都市街道中，開啟你的電光視野，發現隱藏的都市動能。", snap: "https://www.snapchat.com/" },
+                { id: 4, text: "派對時刻的能量高峰。釋放你的個人光芒，成為全場焦點。", snap: "https://www.snapchat.com/" },
+                { id: 5, text: "清晨的第一道能量。擺脫迷霧，迎接今日的第一場挑戰。", snap: "https://www.snapchat.com/" },
+                { id: 6, text: "電競賽場上的專注之魂。毫秒間的反應，來自 EWAN 的穩定供給。", snap: "https://www.snapchat.com/" },
+                { id: 7, text: "健身房裡的突破時刻。打破原本的負重上限，追求極限進化。", snap: "https://www.snapchat.com/" },
+                { id: 8, text: "創作低潮的破繭而出。像閃電一樣擊碎思維的牆。 ", snap: "https://www.snapchat.com/" },
+                { id: 9, text: "與夥伴並肩作戰的時刻。共享能量，達成團隊同步覺醒。", snap: "https://www.snapchat.com/" },
+                { id: 10, text: "最終覺醒。這不僅是能量，更是你的生活態度。", snap: "https://www.snapchat.com/" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
+
+        function initApp() {
+            document.getElementById('surveyBtnLink').href = config.surveyUrl;
+            const sceneGrid = document.getElementById('sceneGrid');
+            config.scenes.forEach(scene => {
+                const btn = document.createElement('div');
+                btn.className = 'btn scene-btn';
+                btn.innerText = `情境 ${scene.id}`;
+                btn.onclick = () => loadScene(scene.id);
+                sceneGrid.appendChild(btn);
+            });
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadScene(id) {
+            const scene = config.scenes.find(s => s.id === id);
+            if (!scene) return;
+            document.getElementById('sceneTitle').innerText = `PHASE ${id}: 挑戰任務`;
+            document.getElementById('sceneBody').innerText = scene.text;
+            document.getElementById('snapLink').href = scene.snap;
+
+            const nextBtn = document.getElementById('nextSceneBtn');
+            if (id < config.scenes.length) {
+                nextBtn.style.display = 'block';
+                nextBtn.onclick = () => loadScene(id + 1);
+            } else {
+                nextBtn.style.display = 'none';
+            }
+            showPage('scene-detail');
+        }
+
+        window.onpopstate = () => showPage('home');
+    </script>
+</body>
+</html>
